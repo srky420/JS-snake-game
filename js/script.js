@@ -53,20 +53,18 @@ function gameEngine() {
     // If snake collapse
     if (didCollide(snakeArr)) {
         gameOverAudio.play();
+        // Reset dir and snake location
         inputDir = {
             x: 0,
             y: 0
         };
-
-        alert('Game Over. Press any key to try again!');
-        
         snakeArr = [
             {
                 x: 10,
                 y: 10
             }
         ];
-
+        // Reset score
         score = 0;
         document.querySelector('#score').innerHTML = 'Score: ' + score;
     }
