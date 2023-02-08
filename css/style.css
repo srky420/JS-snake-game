@@ -14,9 +14,9 @@
 }
 
 #board {
-    background-color: burlywood;
-    height: 70vmin;
-    width: 72vmin;
+    background: linear-gradient(rgb(110, 209, 110), rgb(173, 224, 153));
+    height: 90vmin;
+    width: 90vmin;
     border: 2px solid black;
     display: grid;
     grid-template-rows: repeat(20, 1fr);
@@ -24,9 +24,16 @@
 }
 
 .head {
-    background-color: chartreuse
+    background-color: rgb(206, 127, 10);
+    border-radius: 10px;
+}
+
+.snake {
+    background-color: olive;
+    border-radius: 15px;
 }
 
 .food {
-    background-color: darkgreen;
+    background-color: rgb(11, 86, 172);
+    border-radius: 20px;
 }
