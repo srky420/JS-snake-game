@@ -1,18 +1,22 @@
 // Initialize vars
 let board = document.querySelector('#board');
 let score = 0;
+let highScore = 0;
+
 // Snake dir var
 let inputDir = {
     x: 0,
     y: 0
 };
+
 // Snake loc list
 let snakeArr = [
     {
-        x: 10,
-        y: 10
+        x: 11,
+        y: 11
     }
 ];
+
 // Food loc var
 let foodArr = {
     x: 7,
@@ -20,12 +24,11 @@ let foodArr = {
 };
 
 // Audio vars
-const foodAudio = new Audio('food.wav');
-const gameOverAudio = new Audio('game-over.wav');
-const moveAudio = new Audio('move.wav');
+const foodAudio = new Audio('./audio/food.wav');
+const gameOverAudio = new Audio('./audio/game-over.wav');
 
 // Frame update vars
-let frameSpeed = 5;
+let frameSpeed = 10;
 let lastFrame = 0;
 
 
@@ -63,14 +66,25 @@ function gameEngine() {
                 y: 10
             }
         ];
+
         score = 0;
+        document.querySelector('#score').innerHTML = 'Score: ' + score;
     }
 
     // If reached food
     if (snakeArr[0].x === foodArr.x && snakeArr[0].y === foodArr.y) {
         foodAudio.play();
-        // Increment size
+        // Increment size, score, highscore
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
+        
+        score++;
+        if (score >= highScore) {
+            highScore = score;
+            document.querySelector('#highscore').innerHTML = 'Highscore: ' + highScore;
+            localStorage.setItem('highscore', JSON.stringify(highScore));
+        }
+
+        document.querySelector('#score').innerHTML = 'Score: ' + score;
         // Random foor loc b/w: a and b
         let a = 2, b = 18;
         foodArr = { x: Math.round(a + (b - a) * Math.random()), y: Math.round(a + (b - a) * Math.random()) };
@@ -125,19 +139,16 @@ function didCollide(snakeArr) {
     return false;
 }
 
-
-
-// Main logic
+// Initialize frame
 window.requestAnimationFrame(main);
 
+// Arrow keys event
 window.addEventListener('keydown', (e) => {
     // Start the game
     inputDir = {
         x: 0,
         y: 1
     }
-
-    moveAudio.play();
 
     // Check which arrow key pressed
     switch (e.key) {
@@ -171,3 +182,13 @@ window.addEventListener('keydown', (e) => {
     }
 
 });
+
+// Highscore
+if (localStorage.getItem('highscore') == null) {
+    localStorage.setItem('highscore', JSON.stringify(highScore))
+}
+else {
+    highScore = JSON.parse(localStorage.getItem('highscore'));
+}
+
+document.querySelector('#highscore').innerHTML = 'Highscore: ' + highScore;
